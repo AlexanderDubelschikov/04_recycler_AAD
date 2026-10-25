@@ -1,0 +1,50 @@
+package ru.netology.nmedia.dto
+
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import ru.netology.nmedia.enumeration.AttachmentType
+import java.time.Instant
+
+data class Post(
+    val id: Long,
+    val authorId: Long,
+    val author: String,
+    val authorAvatar: String? = null,
+    val content: String,
+    val published: Instant?,
+    val likedByMe: Boolean,
+    val likes: Int = 0,
+    val attachment: Attachment? = null,
+    val ownedByMe: Boolean = false,
+) {
+    @JsonCreator
+    constructor(
+        @JsonProperty("id") id: Long?,
+        @JsonProperty("authorId") authorId: Long?,
+        @JsonProperty("author") author: String?,
+        @JsonProperty("authorAvatar") authorAvatar: String?,
+        @JsonProperty("content") content: String,
+        @JsonProperty("published") published: Instant?,
+        @JsonProperty("likedByMe") likedByMe: Boolean?,
+        @JsonProperty("likes") likes: Int?,
+        @JsonProperty("attachment") attachment: Attachment?,
+        @JsonProperty("ownedByMe") ownedByMe: Boolean?,
+    ) : this(
+        id = id ?: 0,
+        author = author ?: "",
+        content = content,
+        published = published,
+        likedByMe = likedByMe ?: false,
+        authorAvatar = authorAvatar,
+        attachment = attachment,
+        likes = likes ?: 0,
+        authorId = authorId ?: 0,
+        ownedByMe = ownedByMe ?: false,
+    )
+}
+
+data class Attachment(
+    val url: String,
+    val description: String?,
+    val type: AttachmentType,
+)
